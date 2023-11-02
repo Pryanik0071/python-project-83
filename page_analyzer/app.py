@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 
 # Это callable WSGI-приложение
@@ -7,4 +7,4 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Welcome to Flask!'
+    return render_template('index.html')
