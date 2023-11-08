@@ -1,8 +1,6 @@
 {% extends "blocks/base.html" %}
 {% block messages %}
-  {% if messages %}
-    <div class="alert alert-{{ messages[0][0] }}" role="alert">{{ messages[0][1] }}</div>
-  {% endif %}
+  {% include 'blocks/messages.html' %}
 {% endblock %}
 {% block content %}
   <main class="flex-grow-1">
