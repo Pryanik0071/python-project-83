@@ -1,35 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-  {% include 'blocks/head.html' %}
-  <body class="min-vh-100 d-flex flex-column">
-    {% include 'blocks/header.html' %}
-    <main class="flex-grow-1">
-      <div class="container-lg mt-3">
-        <h1>Сайты</h1>
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover text-nowrap" data-test="urls">
-            <thead>
+{% extends "blocks/base.html" %}
+{% block content %}
+  <main class="flex-grow-1">
+    <div class="container-lg mt-3">
+      <h1>Сайты</h1>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover text-nowrap" data-test="urls" aria-describedby="urls table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Имя</th>
+              <th>Последняя проверка</th>
+              <th>Код ответа</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for url in urls %}
               <tr>
-                <th>ID</th>
-                <th>Имя</th>
-                <th>Последняя проверка</th>
-                <th>Код ответа</th>
+                <td>{{ url[0] }}</td>
+                <td><a href="{{ url_for('get_url', id=url[0]) }}">{{ url[1] }}</a></td>
+                <td></td>
+                <td></td>
               </tr>
-            </thead>
-            <tbody>
-              {% for url in urls %}
-                <tr>
-                  <td>{{ url[0] }}</td>
-                  <td><a href="{{ url_for('get_url', id=url[0]) }}">{{ url[1] }}</a></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-    </main>
-    {% include 'blocks/js_script.html' %}
-  </body>
-</html>
+    </div>
+  </main>
+{% endblock %}

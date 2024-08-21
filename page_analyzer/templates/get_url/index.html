@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  {% include 'blocks/head.html' %}
-  <body class="min-vh-100 d-flex flex-column">
-    {% include 'blocks/header.html' %}
-    {% if messages %}
-      <div class="alert alert-{{ messages[0][0] }}" role="alert">{{ messages[0][1] }}</div>
-    {% endif %}
-    <main class="flex-grow-1">
+{% extends "blocks/base.html" %}
+{% block messages %}
+  {% include 'blocks/messages.html' %}
+{% endblock %}
+{% block content %}
+  <main class="flex-grow-1">
       <div class="container-lg mt-3">
         <h1>Сайт: {{ name }}</h1>
         <div class="table-responsive">
@@ -59,6 +56,4 @@
         </div>
       </div>
     </main>
-    {% include 'blocks/js_script.html' %}
-  </body>
-</html>
+{% endblock %}
