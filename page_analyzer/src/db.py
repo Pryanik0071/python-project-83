@@ -33,7 +33,7 @@ def check_url_in_db(name):
     return id_
 
 
-def insert_new_url(name):
+def insert_url(name):
     conn = db_connect()
     with conn.cursor() as cur:
         query = "INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id"
@@ -42,3 +42,43 @@ def insert_new_url(name):
         conn.commit()
     conn.close()
     return id_
+
+
+def get_url(url_id):
+    conn = db_connect()
+    with conn.cursor() as cur:
+        query = "SELECT name FROM urls WHERE id = %s"
+        cur.execute(query, (url_id,))
+        name = cur.fetchone()[0]
+    conn.close()
+    return name
+
+
+def insert_check(data):
+    conn = db_connect()
+    with conn.cursor() as cur:
+        query = """
+            INSERT INTO url_checks 
+            (url_id, status_code, h1, title, description, created_at)
+            VALUES (%(id)s, %(code)s, %(h1)s, %(title)s, %(desc)s, %(date)s)
+            """
+        cur.execute(query, data)
+        conn.commit()
+    conn.close()
+
+
+
+# SELECT
+#     id,
+# 	name,
+# 	last_check.status_code,
+# 	last_check.created_at
+# 	from urls
+# 	left join (
+#         SELECT DISTINCT ON (url_id)
+#         url_id,
+# 	    status_code,
+# 	    created_at
+# 		FROM url_checks
+# 		ORDER by url_id, created_at DESC) as last_check
+#     on last_check.url_id = id;

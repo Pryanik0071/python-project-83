@@ -1,13 +1,11 @@
+from .src import db, parser
+
 import os
-from datetime import date
 
 from dotenv import load_dotenv
-from validators.url import url
-import psycopg2
-import requests
-from .src import db
 from flask import (Flask, render_template, request,
                    redirect, url_for, flash, get_flashed_messages)
+from validators.url import url
 
 
 app = Flask(__name__)
@@ -33,7 +31,7 @@ def urls():
         if url_id is not None:
             flash('Страница уже существует', 'info')
             return redirect(url_for('get_url', id=url_id))
-        url_id = db.insert_new_url(name)
+        url_id = db.insert_url(name)
         flash('Страница успешно добавлена', 'success')
         return redirect(url_for('get_url', id=url_id))
     urls_list = db.get_urls()
@@ -61,28 +59,12 @@ def get_url(id):
 
 @app.post('/urls/<int:id>/checks')
 def checks(id):
-    conn = psycopg2.connect(DATABASE_URL)
-    cur = conn.cursor()
-    cur.execute(f"Select name from urls where id= {id}")
-    name = cur.fetchone()[0]
-    r = requests.get(name)
-    status_code = r.status_code
-    cur.execute(f"Insert into url_checks (url_id, created_at) "
-                f"VALUES ('{id}', '{date.today()}')")
-    conn.commit()
-    conn.close()
+    url_ = db.get_url(id)
+    result = parser.parse_url(url_)
+    if result is None:
+        flash('Произошла ошибка при проверке', 'danger')
+        return redirect(url_for('get_url', id=id))
+    flash('Страница успешно проверена', 'success')
+    result['id'] = id
+    db.insert_check(result)
     return redirect(url_for('get_url', id=id))
-
-
-# TODO:
-# Внешний вид подсматривайте здесь
-# Учитесь пользоваться логами, они ваш главный помощник
-# Для нормализации имени сайта используйте urlparse
-# Для валидации имени сайта используйте validators
-# Для заполнения created_at используйте datetime
-# Для работы с переменными окружения используйте python-dotenv
-
-# Реализуйте валидацию для введенного URL-адреса. У URL обязательно должен быть валидный адрес, не превышающий 255 символов
-# Реализуйте вывод конкретного введенного URL на отдельной странице urls/<id>
-# Реализуйте вывод всех добавленных URL на отдельной странице /urls и проверьте, что новые записи отображаются первыми
-# Задеплойте результат
