@@ -1,14 +1,5 @@
 -- Schema: public
 
-DROP TABLE public.urls;
-
-CREATE TABLE public.urls (
-	id bigserial NOT NULL,
-	name varchar NULL,
-	created_at date NULL,
-	CONSTRAINT urls_pk PRIMARY KEY (id)
-);
-
 DROP TABLE public.url_checks;
 
 CREATE TABLE public.url_checks (
@@ -20,4 +11,13 @@ CREATE TABLE public.url_checks (
 	description varchar NULL,
 	created_at date NULL,
 	CONSTRAINT url_checks_fk FOREIGN KEY (url_id) REFERENCES public.urls(id)
+);
+
+DROP TABLE public.urls;
+
+CREATE TABLE public.urls (
+	id bigserial NOT NULL,
+	name varchar NULL,
+	created_at date NULL,
+	CONSTRAINT urls_pk PRIMARY KEY (id)
 );
