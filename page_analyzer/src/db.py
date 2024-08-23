@@ -23,7 +23,8 @@ def get_urls():
             url_id, status_code, created_at
             FROM url_checks
             ORDER by url_id, created_at DESC) as last_check
-        ON last_check.url_id = id;"""
+        ON last_check.url_id = id
+        ORDER BY id DESC;"""
         cur.execute(query)
         urls_list = cur.fetchall()
     conn.close()

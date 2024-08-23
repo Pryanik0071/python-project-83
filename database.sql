@@ -1,4 +1,6 @@
--- DROP TABLE public.urls;
+-- Schema: public
+
+DROP TABLE public.urls;
 
 CREATE TABLE public.urls (
 	id bigserial NOT NULL,
@@ -7,7 +9,7 @@ CREATE TABLE public.urls (
 	CONSTRAINT urls_pk PRIMARY KEY (id)
 );
 
--- DROP TABLE public.url_checks;
+DROP TABLE public.url_checks;
 
 CREATE TABLE public.url_checks (
 	id bigserial NOT NULL,
