@@ -7,6 +7,9 @@ import requests
 def parse_url(url):
     try:
         response = requests.get(url)
+        status_code = response.status_code
+        if status_code != 200:
+            raise requests.exceptions.ConnectionError
     except requests.exceptions.ConnectionError:
         return
     soup = BeautifulSoup(response.text, 'html.parser')

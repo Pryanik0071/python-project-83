@@ -27,7 +27,7 @@ def urls():
         if not url(name):
             flash('Некорректный URL', 'danger')
             return redirect(url_for('index'))
-        url_id = db.check_url_in_db(name)
+        url_id = db.get_url_id(name)
         if url_id is not None:
             flash('Страница уже существует', 'info')
             return redirect(url_for('get_url', id=url_id))
@@ -41,20 +41,9 @@ def urls():
 @app.route('/urls/<int:id>')
 def get_url(id):
     messages = get_flashed_messages(with_categories=True)
-    conn = db.db_connect()
-    with conn.cursor() as cur:
-        query = "SELECT name, created_at FROM urls WHERE id=%s"
-        cur.execute(query, (id,))
-        name, created_at = cur.fetchone()
-        cur.execute(f"Select id, status_code, h1, title, description, created_at from url_checks where url_id = {id} ORDER BY id desc ")
-        all_checks = cur.fetchall()
-    conn.close()
-    return render_template('get_url/index.html',
-                           messages=messages,
-                           id=id,
-                           name=name,
-                           date=created_at,
-                           checks=all_checks)
+    url_info, url_checks = db.get_url_checks(id)
+    return render_template('get_url/index.html', messages=messages,
+                           url_info=url_info, url_checks=url_checks)
 
 
 @app.post('/urls/<int:id>/checks')
