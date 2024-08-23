@@ -1,8 +1,6 @@
--- Schema: public
+DROP TABLE url_checks;
 
-DROP TABLE public.url_checks;
-
-CREATE TABLE public.url_checks (
+CREATE TABLE url_checks (
 	id bigserial NOT NULL,
 	url_id int8 NOT NULL,
 	status_code int4 NULL,
@@ -13,9 +11,9 @@ CREATE TABLE public.url_checks (
 	CONSTRAINT url_checks_fk FOREIGN KEY (url_id) REFERENCES public.urls(id)
 );
 
-DROP TABLE public.urls;
+DROP TABLE urls;
 
-CREATE TABLE public.urls (
+CREATE TABLE urls (
 	id bigserial NOT NULL,
 	name varchar NULL,
 	created_at date NULL,
