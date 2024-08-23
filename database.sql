@@ -1,6 +1,6 @@
 -- Schema: public
 
--- DROP TABLE public.url_checks;
+-- DROP TABLE  IF EXISTS public.url_checks;
 
 CREATE TABLE public.url_checks (
 	id bigserial NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE public.url_checks (
 	CONSTRAINT url_checks_fk FOREIGN KEY (url_id) REFERENCES public.urls(id)
 );
 
--- DROP TABLE public.urls;
+-- DROP TABLE  IF EXISTS public.urls;
 
 CREATE TABLE public.urls (
 	id bigserial NOT NULL,
