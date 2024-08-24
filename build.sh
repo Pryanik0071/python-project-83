@@ -4,4 +4,4 @@
 # ссылка подгрузится из переменной окружения, которую нам нужно будет указать на сервисе деплоя
 # дальше мы загружаем в поключенную базу наш sql-файл с таблицами
 source .env
-make install && psql -a -d $DATABASE_URL -f database.sql
+ make install && psql -a -d $DATABASE_URL -f database.sql

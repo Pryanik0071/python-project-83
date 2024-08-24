@@ -3,8 +3,10 @@ import os
 
 import psycopg2
 from psycopg2.extras import DictCursor
+from dotenv import load_dotenv
 
 
+load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 

@@ -9,7 +9,6 @@ from validators.url import url
 
 
 app = Flask(__name__)
-
 load_dotenv()
 app.secret_key = os.getenv('SECRET_KEY')
 
