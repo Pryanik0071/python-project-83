@@ -1,6 +1,7 @@
 from .src import db, parser
 
 import os
+from urllib.parse import urlparse
 
 from dotenv import load_dotenv
 from flask import (Flask, render_template, request,
@@ -26,6 +27,8 @@ def urls():
         if not url(name):
             flash('Некорректный URL', 'danger')
             return redirect(url_for('index'))
+        url_parse = urlparse(name)
+        name = ''.join([url_parse.scheme, '://', url_parse.hostname])
         url_id = db.get_url_id(name)
         if url_id is not None:
             flash('Страница уже существует', 'info')
@@ -47,8 +50,8 @@ def get_url(id):
 
 @app.post('/urls/<int:id>/checks')
 def checks(id):
-    url_ = db.get_url(id)
-    result = parser.parse_url(url_)
+    name = db.get_url(id)
+    result = parser.parse_url(name)
     if result is None:
         flash('Произошла ошибка при проверке', 'danger')
         return redirect(url_for('get_url', id=id))
