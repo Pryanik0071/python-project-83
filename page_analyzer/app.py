@@ -26,7 +26,7 @@ def urls():
         name = request.form.get('url')
         if not url(name):
             flash('Некорректный URL', 'danger')
-            return redirect(url_for('index'))
+            return render_template('index.html'), 422
         url_parse = urlparse(name)
         name = ''.join([url_parse.scheme, '://', url_parse.hostname])
         url_id = db.get_url_id(name)
