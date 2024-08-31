@@ -5,27 +5,27 @@
 {% block content %}
   <main class="flex-grow-1">
       <div class="container-lg mt-3">
-        <h1>Сайт: {{ url_info['name'] }}</h1>
+        <h1>Сайт: {{ url_info.name }}</h1>
         <div class="table-responsive">
           <table class="table table-bordered table-hover text-nowrap" data-test="url">
             <tbody>
               <tr>
                 <td>ID</td>
-                <td>{{ url_info['url_id'] }}</td>
+                <td>{{ url_info.url_id }}</td>
               </tr>
               <tr>
                 <td>Имя</td>
-                <td>{{ url_info['name'] }}</td>
+                <td>{{ url_info.name }}</td>
               </tr>
               <tr>
                 <td>Дата создания</td>
-                <td>{{ url_info['url_created'] }}</td>
+                <td>{{ url_info.url_created }}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <h2 class="mt-5 mb-3">Проверки</h2>
-        <form method="post" action="{{ url_for('checks', id=url_info['url_id']) }}">
+        <form method="post" action="{{ url_for('checks', id=url_info.url_id) }}">
           <input type="submit" class="btn btn-primary" value="Запустить проверку">
         </form>
         <div>
@@ -41,15 +41,15 @@
               </tr>
             </thead>
             <tbody>
-              {% if url_checks[0]['id'] is not none %}
+              {% if url_checks[0].id is not none %}
                 {% for check in url_checks %}
                   <tr>
-                    <td>{{ check['id'] }}</td>
-                    <td>{{ check['status_code'] }}</td>
-                    <td>{{ check['h1'] }}</td>
-                    <td>{{ check['title'] }}</td>
-                    <td>{{ check['description'] }}</td>
-                    <td>{{ check['created'] }}</td>
+                    <td>{{ check.id }}</td>
+                    <td>{{ check.status_code }}</td>
+                    <td>{{ check.h1 }}</td>
+                    <td>{{ check.title }}</td>
+                    <td>{{ check.description }}</td>
+                    <td>{{ check.created }}</td>
                   </tr>
                 {% endfor %}
               {% else %}
