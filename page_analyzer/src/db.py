@@ -16,7 +16,7 @@ def db_connect():
 
 def get_urls():
     conn = db_connect()
-    with conn.cursor() as cur:
+    with conn.cursor(cursor_factory=DictCursor) as cur:
         query = """SELECT id, name,
         last_check.status_code as status_code,
         last_check.created_at as created
