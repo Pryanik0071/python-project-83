@@ -18,8 +18,15 @@
       </div>
     </nav>
   </header>
-  {% block messages %}
-  {% endblock %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert {{ category }}" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
   {% block content %}
   {% endblock %}
   <footer class="border-top py-3 mt-5 flex-shrink-0">
